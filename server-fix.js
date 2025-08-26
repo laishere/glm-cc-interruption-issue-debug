@@ -70,10 +70,7 @@ app.post("/v1/messages", async (req, res) => {
       logger.warn('Aborted');
       return;
     }
-    const duration = Date.now() - startTime;
-    logger.error(
-      `Request failed - Status: 500, Duration: ${duration}ms, Error: ${error.message}`
-    );
+    logger.error(error, 'Request failed');
     res.status(500).json({
       error: error.message,
     });
