@@ -61,6 +61,7 @@ body.tools: Tool[];
 async function testAnthropicAPI() {
   const url = "https://open.bigmodel.cn/api/anthropic/v1/messages";
   const { headers, ...body } = ccRequest;
+  delete headers['content-length'];
   const res = await fetch(url, {
     method: "POST",
     headers,
