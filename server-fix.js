@@ -61,11 +61,15 @@ app.post("/v1/messages", async (req, res) => {
       res.setHeader(key, value);
     });
 
-    response.body.pipeTo(Writable.toWeb(res));
+    await response.body.pipeTo(Writable.toWeb(res));
 
     const duration = Date.now() - startTime;
     logger.info(`${response.status} ${duration}ms`);
   } catch (error) {
+    if (error.name === 'AbortError') {
+      logger.warn('Aborted');
+      return;
+    }
     const duration = Date.now() - startTime;
     logger.error(
       `Request failed - Status: 500, Duration: ${duration}ms, Error: ${error.message}`
