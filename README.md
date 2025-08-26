@@ -1,8 +1,23 @@
-# GLM Anthropic API DEBUG
+# GLM Anthropic API DEBUG & WORKAROUND
 
-A simple project to debug the GLM Anthropic API endpoint issue https://github.com/zai-org/GLM-4.5/issues/57
+A simple project to debug and a workaround for the GLM Anthropic API endpoint issue https://github.com/zai-org/GLM-4.5/issues/57
 
-## Steps:
+## Workaround
+
+The workaround proxy server is implemented at ./server-fix.js.
+It transforms all the problematic `tool_result` messages to the well-supported format.
+
+### How to use:
+
+1. Clone this repository
+2. Run `npm install`
+3. Run the fix server and your CC:
+```sh
+npm run fix
+ANTHROPIC_BASE_URL=http://localhost:3000 claude
+```
+
+## Steps to reproduce and debug:
 
 ### 1. Run the server
 
