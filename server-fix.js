@@ -16,7 +16,11 @@ const logger = pino(
 
 const fixedToolResults = new Set();
 
-app.use(express.json());
+app.use(
+  express.json({
+    limit: "100mb",
+  })
+);
 
 app.post("/v1/messages", async (req, res) => {
   const startTime = Date.now();
@@ -35,11 +39,17 @@ app.post("/v1/messages", async (req, res) => {
           m.content.length > 1 &&
           m.content.some((part) => part.type === "tool_result")
         ) {
-          const toolUseId = m.content.find(part => part.type === "tool_result").tool_use_id;
+          const toolUseId = m.content.find(
+            (part) => part.type === "tool_result"
+          ).tool_use_id;
           if (!fixedToolResults.has(toolUseId)) {
             // only log once
             fixedToolResults.add(toolUseId);
-            logger.info("Fixed tool_result(%s) messages, parts: %j", toolUseId, m.content.map((p) => p.type));
+            logger.info(
+              "Fixed tool_result(%s) messages, parts: %j",
+              toolUseId,
+              m.content.map((p) => p.type)
+            );
           }
           return m.content.map((part) => ({
             role: m.role,
@@ -66,11 +76,11 @@ app.post("/v1/messages", async (req, res) => {
     const duration = Date.now() - startTime;
     logger.info(`${response.status} ${duration}ms`);
   } catch (error) {
-    if (error.name === 'AbortError') {
-      logger.warn('Aborted');
+    if (error.name === "AbortError") {
+      logger.warn("Aborted");
       return;
     }
-    logger.error(error, 'Request failed');
+    logger.error(error, "Request failed");
     res.status(500).json({
       error: error.message,
     });
