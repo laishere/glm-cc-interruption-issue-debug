@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "fix": "node server-fix.js"
+    "fix": "node server-fix.js",
+    "minimax": "node minimax-fix.js"
   },
   "keywords": [],
   "author": "",

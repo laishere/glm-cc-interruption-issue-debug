@@ -1,6 +1,15 @@
-# GLM Anthropic API DEBUG & WORKAROUND
+# Anthropic API DEBUG & WORKAROUND
 
-A simple project to debug and a workaround for the GLM Anthropic API endpoint issue https://github.com/zai-org/GLM-4.5/issues/57
+A simple project to debug and a workaround for the GLM Anthropic API endpoint issue https://github.com/zai-org/GLM-4.5/issues/57(fixed)
+
+**Updated(11/3/2025)**:
+Add workaround for Minimax at ./minimax-fix.js.
+To run it:
+
+```sh
+npm i
+npm run minimax
+```
 
 ## Workaround
 
@@ -12,6 +21,7 @@ It transforms all the problematic `tool_result` messages to the well-supported f
 1. Clone this repository
 2. Run `npm install`
 3. Run the fix server and your CC:
+
 ```sh
 npm run fix
 ANTHROPIC_BASE_URL=http://localhost:3000 claude
@@ -49,7 +59,7 @@ You should see the agent still wants to write to `a.txt` NOT `b.txt` by checking
 Copy the relative path of the step 4. request.md file, update the api.js
 
 ```js
-const ccRequestPath = 'requests/req-xxx.md'
+const ccRequestPath = "requests/req-xxx.md";
 ```
 
 Run it via `node api.js`
@@ -84,6 +94,7 @@ The official Anthropic API implementation seems to ignore the following user mes
 ```
 
 The `tool_result` message contains multiple content pieces, but after running the api.js test for multiple times, the API has two behavior：
+
 - the agent still tries to write to a.txt
 - the agent realizes the user rejected it, but the agent is not able to pick up the b.txt at all.
 
